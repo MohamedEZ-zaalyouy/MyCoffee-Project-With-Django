@@ -6,8 +6,8 @@ from django.http import HttpResponse
 
 
 def index(request):
-    return HttpResponse('<h1>home page</h1>')
+    return render(request,'pages/index.html')
 
 
 def about(request):
-    return HttpResponse('<h1>about us page</h1>')
+    return render(request,'pages/about.html')
