@@ -1,21 +1,33 @@
-from django.shortcuts import render
+from django.shortcuts import render , redirect
 from django.contrib import messages
 
 # Create your views here.
 
 
 def signin(request):
-    if request.POST:
-        messages.info(request, 'This first messager of test')
-        messages.success(request, 'This first messager of  2')
-        messages.error(request, 'This first messager of  3')
+    if request.method == 'POST' and 'btnlogin' in request.POST:
+        username = request.POST['username']
+        password = request.POST['password']
+        if 'rememberme' in request.POST:
+            rememberme = request.POST['rememberme']
 
-    return render(request,'accounts/signin.html',)
+        messages.info(request,  username)
+        return redirect('signin')
+    else:
+        return render(request,'accounts/signin.html')
 
 
 def signup(request):
-    return render(request,'accounts/signup.html')
+    if request.POST and 'btnsignup' in request.POST:
+        messages.info(request, 'This first messager of test')
+        return redirect('signup')
+    else:
+        return render(request,'accounts/signup.html')
 
 
 def profile(request):
-    return render(request,'accounts/profile.html')
+    if request.POST  and 'btnSave' in request.POST:
+        messages.info(request, 'This first messager of test')
+        return redirect('profile')
+    else:
+        return render(request,'accounts/profile.html')

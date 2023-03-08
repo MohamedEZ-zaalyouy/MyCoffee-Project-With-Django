@@ -5,7 +5,7 @@
             {% csrf_token %}
             <h2 class="text-center">Profile</h2>
             <hr>
-
+            {% include 'partials/messages.html' %}
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="inputFirstName">First Name</label>
@@ -54,7 +54,7 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-warning">Save Changes</button>
+            <button type="submit" name="btnSave" class="btn btn-warning">Save Changes</button>
         </form>
 
 
