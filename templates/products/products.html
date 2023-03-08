@@ -11,14 +11,14 @@
                   <div class="row p-5" >
                    
                     
-                    {% for product in products %}
+                    {% for product in products%}
                       <div>
                       <div class="card m-2" style="width: 18rem;">
                         <img src="{{product.photo.url}}" class="card-img-top" style="width: 286px; height: 286px;" alt="{{product.name}}">
                         <div class="card-body">
-                          <h5 class="card-title">{{product.name}}</h5>
-                          <p class="card-text">{{product.description|slice:':50'}}...</p>
-                          <a href="#" class="btn btn-warning">Show Details</a>
+                          <h5 class="card-title">{{product.name|capfirst}}</h5>
+                          <p class="card-text">{{product.description|capfirst|slice:':50'}}...</p>
+                          <a href="{% url 'product' pro_id=product.id %}" class="btn btn-warning">Show Details</a>
                         </div>
                       </div>
                     </div>

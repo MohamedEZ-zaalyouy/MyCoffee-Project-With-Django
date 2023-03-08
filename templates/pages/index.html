@@ -71,71 +71,22 @@
         <div class="container-fluid">
           <div class="row p-5" style="padding-left: 17% !important;">
 
-            <div>
-              <div class="card m-2" style="width: 18rem;">
-                <img src="{% static 'img/pro1.jpg' %}" class="card-img-top" alt="...">
-                <div class="card-body">
-                  <h5 class="card-title">Product</h5>
-                  <p class="card-text">Product's content.</p>
-                  <a href="#" class="btn btn-warning">Show Details</a>
-                </div>
-              </div>
-            </div>
+
+
+            {% for LasteProduct in LasteProducts|slice:':6'  %}
 
             <div>
               <div class="card m-2" style="width: 18rem;">
-                <img src="{% static 'img/pro2.jpg' %}" class="card-img-top" alt="...">
+                <img src="{{LasteProduct.photo.url}}" class="card-img-top" style="width: 286px; height: 286px;"  alt="{{LasteProduct.name}}">
                 <div class="card-body">
-                  <h5 class="card-title">Product</h5>
-                  <p class="card-text">Product's content.</p>
-                  <a href="#" class="btn btn-warning">Show Details</a>
+                  <h5 class="card-title">{{LasteProduct.name|capfirst}}</h5>
+                  <p class="card-text text-truncate">{{LasteProduct.description|capfirst}}</p>
+                  <a href="{% url 'product' pro_id=LasteProduct.id %}" class="btn btn-warning">Show Details</a>
                 </div>
               </div>
             </div>
-
-            <div>
-              <div class="card m-2" style="width: 18rem;">
-                <img src="{% static 'img/pro3.jpg' %}" class="card-img-top" alt="...">
-                <div class="card-body">
-                  <h5 class="card-title">Product</h5>
-                  <p class="card-text">Product's content.</p>
-                  <a href="#" class="btn btn-warning">Show Details</a>
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <div class="card m-2" style="width: 18rem;">
-                <img src="{% static 'img/pro4.jpg' %}" class="card-img-top" alt="...">
-                <div class="card-body">
-                  <h5 class="card-title">Product</h5>
-                  <p class="card-text">Product's content.</p>
-                  <a href="#" class="btn btn-warning">Show Details</a>
-                </div>
-              </div>
-            </div>
-    
-            <div>
-              <div class="card m-2" style="width: 18rem;">
-                <img src="{% static 'img/pro5.jpg' %}" class="card-img-top" alt="...">
-                <div class="card-body">
-                  <h5 class="card-title">Product</h5>
-                  <p class="card-text">Product's content.</p>
-                  <a href="#" class="btn btn-warning">Show Details</a>
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <div class="card m-2" style="width: 18rem;">
-                <img src="{% static 'img/pro6.jpg' %}" class="card-img-top" alt="...">
-                <div class="card-body">
-                  <h5 class="card-title">Product</h5>
-                  <p class="card-text">Product's content.</p>
-                  <a href="#" class="btn btn-warning">Show Details</a>
-                </div>
-              </div>
-            </div>
+            
+            {% endfor %}
 
           </div>
         </div>
