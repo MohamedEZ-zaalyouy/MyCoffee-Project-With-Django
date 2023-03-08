@@ -144,3 +144,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# Custom Messages Tages (error to danger) 
+from django.contrib.messages import constants as messages
+MESSAGE_TAGS = {
+    messages.ERROR: 'danger',
+}
