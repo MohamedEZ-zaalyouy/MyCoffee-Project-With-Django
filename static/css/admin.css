@@ -1,0 +1,65 @@
+#header{
+    background-color: #5A020Cce;
+    color: #fff;
+}
+
+.module h2,
+.module caption,
+.inline-group h2,
+#content-related .module h2{
+    background-color: #81323ace;
+    color: #fff !important;
+}
+
+#head{
+color: #fff !important;
+}
+
+div.breadcrumbs{
+background-color: #81323ace;
+color: #fff !important;
+}
+
+.button,
+input[type=submit],
+input[type=button],
+.submit-row input,
+a.button{
+    background-color: #815156ce;
+    color: #fff !important;
+}
+
+#changelist .actions .button,
+#toolbar form input[type="submit"]{
+    background-color: #815156ce;
+    box-shadow: 0 -15px 20px -10px #ff1028 inset;
+    color: #fff !important;
+}
+
+.button.default,
+input[type=submit].default,
+.submit-row input.default{
+    
+        background-color: #691720ce;
+        color: #fff !important;
+        
+}
+
+
+.button,
+input[type=submit]:hover,
+input[type=button]:hover,
+.submit-row input:hover,
+a.button:hover{
+    background-color: #ff1028ce;
+    color: #fff !important;
+}
+
+.button.default:hover,
+input[type=submit].default:hover,
+.submit-row input.default:hover{
+    
+        background-color: #ff1028ce;
+        color: #fff !important;
+        
+}
