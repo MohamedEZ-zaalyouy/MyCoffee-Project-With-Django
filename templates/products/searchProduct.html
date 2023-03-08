@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <div class="my-form container p-5 my-5 rounded border border-warning">
+        <form>
+            <h2 class="text-center">Search Products</h2>
+            <hr>
+
+            <section>
+                <div class="container-fluid">
+                  <div class="row p-5" >
+                     
+                    {% for product in products%}
+                      <div>
+                      <div class="card m-2" style="width: 18rem;">
+                        <img src="{{product.photo.url}}" class="card-img-top" style="width: 286px; height: 286px;" alt="{{product.name}}">
+                        <div class="card-body">
+                          <h5 class="card-title">{{product.name|capfirst}}</h5>
+                          <p class="card-text">{{product.description|capfirst|slice:':50'}}...</p>
+                          <a href="{% url 'product' pro_id=product.id %}" class="btn btn-warning">Show Details</a>
+                        </div>
+                      </div>
+                    </div>
+                    {% endfor %}
+                             
+                  </div>
+                </div>
+            </section>
+        
+
+        </form>
+
+    </div>
+{% endblock content %}
