@@ -1,8 +1,93 @@
 from django.shortcuts import render , redirect
 from django.contrib import messages
+from django.contrib.auth.models import User
+from .models import UserProfile
+import re
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
 
 # Create your views here.
 
+##########################################
+# Start Sign Up Views
+##########################################
+
+def signup(request):
+    if request.POST and 'btnsignup' in request.POST:
+
+        terms = None
+        #Get Values from the Form
+        if 'fname' in request.POST: fname = request.POST['fname']
+        else: messages.error(request, 'Error in First Name')
+
+        if 'lname' in request.POST: lname = request.POST['lname']
+        else: messages.error(request, 'Error in Last Name')
+        
+        if 'address' in request.POST: address = request.POST['address']
+        else: messages.error(request, 'Error in Address')
+        
+        if 'address2' in request.POST: address2 = request.POST['address2']
+        else: messages.error(request, 'Error in Address2')
+        
+        if 'city' in request.POST: city = request.POST['city']
+        else: messages.error(request, 'Error in City')
+        
+        if 'state' in request.POST: state = request.POST['state']
+        else: messages.error(request, 'Error in State')
+        
+        if 'zip' in request.POST: zip = request.POST['zip']
+        else: messages.error(request, 'Error in zip number')
+        
+        if 'email' in request.POST: email = request.POST['email']
+        else: messages.error(request, 'Error in Email')
+        
+        if 'username' in request.POST: username = request.POST['username']
+        else: messages.error(request, 'Error in username')
+        
+        if 'password' in request.POST: password = request.POST['password']
+        else: messages.error(request, 'Error in Password')
+        
+        if 'terms' in request.POST: terms = request.POST['terms']
+
+
+        # check the values:
+        if fname and lname and address and address2 and city and state and zip and email and username and password:
+            if terms =='on':
+                # Check if Username exists
+                if User.objects.filter(username=username).exists():
+                    messages.error(request, 'This username is Taken')
+                else:
+                    # Check if Email exists
+                    if User.objects.filter(email=email).exists():
+                        messages.error(request, 'This email is Taken')
+                    else:
+                        # Check if Email est valid
+                        try:
+                            validate_email(email)
+                        except ValidationError:
+                            messages.error(request, 'Invalid Email')
+                            return redirect('signup')
+                          
+                        # Add user
+                        user = User.objects.create_user(first_name = fname, last_name = lname, email=email, password=password)
+                        user.save()
+                        # add User Profile
+                        userprofile = UserProfile.objects.create_user(user = user, address=address, address2=address2, city=city, state=state, zip_number = zip )
+                        userprofile.save()
+            else:
+                messages.error(request, 'You must agree to the terms')
+        else:
+            messages.error(request, 'Check empty fields')
+
+        return redirect('signup')
+    else:
+        return render(request,'accounts/signup.html')
+
+
+
+##########################################
+# Start Sign In Views
+##########################################
 
 def signin(request):
     if request.method == 'POST' and 'btnlogin' in request.POST:
@@ -15,15 +100,11 @@ def signin(request):
         return redirect('signin')
     else:
         return render(request,'accounts/signin.html')
+    
 
-
-def signup(request):
-    if request.POST and 'btnsignup' in request.POST:
-        messages.info(request, 'This first messager of test')
-        return redirect('signup')
-    else:
-        return render(request,'accounts/signup.html')
-
+##########################################
+# Start Profile  Views
+##########################################
 
 def profile(request):
     if request.POST  and 'btnSave' in request.POST:
