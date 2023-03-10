@@ -16,6 +16,7 @@ def signup(request):
     if request.POST and 'btnsignup' in request.POST:
 
         terms = None
+        is_added = None
         #Get Values from the Form
         if 'fname' in request.POST: fname = request.POST['fname']
         else: messages.error(request, 'Error in First Name')
@@ -69,17 +70,47 @@ def signup(request):
                             return redirect('signup')
                           
                         # Add user
-                        user = User.objects.create_user(first_name = fname, last_name = lname, email=email, password=password)
+                        user = User.objects.create_user(first_name = fname, last_name = lname, email=email,username=username, password=password)
                         user.save()
                         # add User Profile
-                        userprofile = UserProfile.objects.create_user(user = user, address=address, address2=address2, city=city, state=state, zip_number = zip )
+                        userprofile = UserProfile(user = user, address=address, address2=address2, city=city, state=state, zip_number = zip )
                         userprofile.save()
+                        #clear fields
+                        fname = ''
+                        lname = ''
+                        address = ''
+                        address2 = ''
+                        city = ''
+                        state = ''
+                        zip = ''
+                        email = ''
+                        username = ''
+                        password = ''
+                        #Success Message
+                        messages.success(request, 'Your account is created -- Tank You-- ')
+
+                        # user is add successfully
+                        is_added = True
+                        
             else:
                 messages.error(request, 'You must agree to the terms')
         else:
             messages.error(request, 'Check empty fields')
 
-        return redirect('signup')
+        context ={
+              'fname': fname,
+              'lname': lname,
+              'address': address,
+              'address2': address2,
+              'city': city,
+              'state': state,
+              'zip': zip,
+              'email': email,
+              'username': username,
+              'password': password,
+              'is_added' :is_added,
+        }
+        return render(request,'accounts/signup.html',context)
     else:
         return render(request,'accounts/signup.html')
 
