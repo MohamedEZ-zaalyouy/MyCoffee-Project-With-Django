@@ -1,11 +1,11 @@
 from django.shortcuts import render , redirect
 from django.contrib import messages
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate , login
+from django.contrib.auth import authenticate , login , logout
 from .models import UserProfile
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
-
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 ##########################################
@@ -121,11 +121,14 @@ def signin(request):
     if request.method == 'POST' and 'btnlogin' in request.POST:
         username = request.POST['username']
         password = request.POST['password']
-        if 'rememberme' in request.POST:
-            rememberme = request.POST['rememberme']
+        
 
         user = authenticate(username = username , password = password)
         if user is not None:
+            # Remember me
+            if 'rememberme' not in request.POST:
+                request.session.set_expiry(0)
+
             login(request, user)
             messages.success(request,'You are now logged in')
             #return redirect('/')
@@ -138,9 +141,18 @@ def signin(request):
     
 
 ##########################################
+# Start Log Out  Views
+##########################################
+@login_required(login_url='signin')
+def LogOut(request):
+    if request.user.is_authenticated:
+        logout(request)
+        return redirect('/')
+
+##########################################
 # Start Profile  Views
 ##########################################
-
+@login_required(login_url='signin')
 def profile(request):
     if request.POST  and 'btnSave' in request.POST:
         messages.info(request, 'This first messager of test')

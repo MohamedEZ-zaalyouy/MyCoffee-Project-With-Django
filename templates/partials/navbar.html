@@ -34,7 +34,7 @@
                 <div class="dropdown-menu animate slideIn" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{% url 'signup' %}">Log Out</a>
+                    <a class="dropdown-item" href="{% url 'logout' %}">Log Out</a>
                 </div>
             </li>
         <!-- if user not logged -->
@@ -50,9 +50,8 @@
         </a>
         <div class="dropdown-menu animate slideIn" aria-labelledby="navbarDropdown">
         <a class="dropdown-item" href="{% url 'signin' %}">Sign in</a>
-        <a class="dropdown-item" href="{% url 'signup' %}">Sign up</a>
         <div class="dropdown-divider"></div>
-        <a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
+        <a class="dropdown-item" href="{% url 'signup' %}">Sign up</a>
         </div>
         </li>
 
