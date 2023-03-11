@@ -19,6 +19,26 @@
         {% endif %}
             <a class="nav-link" href="{% url 'index' %}">Home <span class="sr-only">(current)</span></a>
         </li>
+        
+        <!-- if user is logged -->
+        {% if request.user.is_authenticated %}
+            {% if 'profile' in request.path%}
+            <li class="nav-item dropdown active">
+                {% else %}
+            <li class="nav-item dropdown">
+                {% endif %}
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    Hi {{request.user.username | title}}
+                </a>
+                <div class="dropdown-menu animate slideIn" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{% url 'signup' %}">Log Out</a>
+                </div>
+            </li>
+        <!-- if user not logged -->
+        {% else %}
 
         {% if 'signin' in request.path or 'signup' in request.path or 'profile' in request.path%}
         <li class="nav-item dropdown active">
@@ -35,6 +55,12 @@
         <a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
         </div>
         </li>
+
+
+        {%endif%}
+
+
+
         {% if 'coffee' in request.path%}
         <li class="nav-item active" id="coffee-nav-item">
         {% else %}

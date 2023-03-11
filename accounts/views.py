@@ -1,8 +1,8 @@
 from django.shortcuts import render , redirect
 from django.contrib import messages
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate , login
 from .models import UserProfile
-import re
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 
@@ -11,7 +11,6 @@ from django.core.exceptions import ValidationError
 ##########################################
 # Start Sign Up Views
 ##########################################
-
 def signup(request):
     if request.POST and 'btnsignup' in request.POST:
 
@@ -113,9 +112,7 @@ def signup(request):
         return render(request,'accounts/signup.html',context)
     else:
         return render(request,'accounts/signup.html')
-
-
-
+    
 ##########################################
 # Start Sign In Views
 ##########################################
@@ -127,7 +124,14 @@ def signin(request):
         if 'rememberme' in request.POST:
             rememberme = request.POST['rememberme']
 
-        messages.info(request,  username)
+        user = authenticate(username = username , password = password)
+        if user is not None:
+            login(request, user)
+            messages.success(request,'You are now logged in')
+            #return redirect('/')
+        else:
+            messages.error(request,'Username Or Password Invalid')
+
         return redirect('signin')
     else:
         return render(request,'accounts/signin.html')
