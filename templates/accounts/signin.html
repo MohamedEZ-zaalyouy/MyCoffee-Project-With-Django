@@ -5,6 +5,7 @@
         <hr>
         
         {% if request.user.is_authenticated %}
+            {% include 'partials/messages.html' %}
             <h4 class="alert alert-warning">
                 Welcome {{request.user.username | title}}, You are now logged in
             </h4>

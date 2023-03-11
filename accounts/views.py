@@ -155,7 +155,70 @@ def LogOut(request):
 @login_required(login_url='signin')
 def profile(request):
     if request.POST  and 'btnSave' in request.POST:
-        messages.info(request, 'This first messager of test')
+        #Get Values from the Form
+        if 'fname' in request.POST: fname = request.POST['fname']
+        else: messages.error(request, 'Error in First Name')
+
+        if 'lname' in request.POST: lname = request.POST['lname']
+        else: messages.error(request, 'Error in Last Name')
+        
+        if 'address' in request.POST: address = request.POST['address']
+        else: messages.error(request, 'Error in Address')
+        
+        if 'address2' in request.POST: address2 = request.POST['address2']
+        else: messages.error(request, 'Error in Address2')
+        
+        if 'city' in request.POST: city = request.POST['city']
+        else: messages.error(request, 'Error in City')
+        
+        if 'state' in request.POST: state = request.POST['state']
+        else: messages.error(request, 'Error in State')
+        
+        if 'zip' in request.POST: zip = request.POST['zip']
+        else: messages.error(request, 'Error in zip number')
+        
+        if 'password' in request.POST: password = request.POST['password']
+        else: messages.error(request, 'Error in Password')
+
+        # check the values:
+        if fname and lname and address and address2 and city and state and zip and password:
+            userprofile = UserProfile.objects.get(user = request.user)
+            request.user.first_name = fname
+            request.user.last_name = lname
+            userprofile.address = address
+            userprofile.address2 = address2
+            userprofile.state = state
+            userprofile.city = city
+            userprofile.zip_number = zip
+            request.user.set_password(password)
+
+            request.user.save()
+            userprofile.save()
+
+            # login
+            login(request, request.user)
+
+            messages.success(request, 'Your data has been saved')
+
+        else:
+            messages.error(request, 'Check empty fields')
+
         return redirect('profile')
     else:
-        return render(request,'accounts/profile.html')
+        # send information
+        if request.user is not None:
+            userprofile = UserProfile.objects.get(user = request.user)
+            context = {
+                'fname': request.user.first_name,
+                'lname': request.user.last_name,
+                'address': userprofile.address,
+                'address2': userprofile.address2,
+                'state': userprofile.state,
+                'city': userprofile.city,
+                'zip': userprofile.zip_number,
+                'username': request.user.username,
+                'email': request.user.email,
+            }
+        else:
+            return redirect('/')
+        return render(request,'accounts/profile.html',context)
