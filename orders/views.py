@@ -3,5 +3,5 @@ from django.shortcuts import render
 
 
 # Create your views here.
-def orders(request):
+def add_to_cart(request):
     return render(request,'orders/order.html')
