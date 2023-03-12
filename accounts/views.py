@@ -227,10 +227,10 @@ def profile(request):
     
 
 ##########################################
-# Start product_favorites  Views
+# Start add_product_favorites  Views
 ##########################################
-
-def product_favorites(request, pro_id):
+@login_required(login_url='signin')
+def add_product_favorites(request, pro_id):
     if request.user.is_authenticated and not request.user.is_anonymous:
         #Product favorites
         pro_fav = Product.objects.get(id = pro_id)
@@ -250,3 +250,17 @@ def product_favorites(request, pro_id):
         messages.error(request, 'You must be logged in')
 
     return redirect('/product/'+str(pro_id))
+
+
+##########################################
+# Start product favorites  Views
+##########################################
+@login_required(login_url='signin')
+def product_favorites(request):
+
+    userprofile = UserProfile.objects.get(user = request.user)
+    pro_fav = userprofile.product_favorites.all()
+    context = {
+        'pro_fav':pro_fav
+    }
+    return render(request, 'accounts/product_favorites.html', context)

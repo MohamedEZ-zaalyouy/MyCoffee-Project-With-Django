@@ -6,5 +6,6 @@ urlpatterns = [
     path('signup', views.signup , name='signup'),
     path('profile', views.profile , name='profile'),
     path('logout', views.LogOut , name='logout'),
-    path('product_favorites/<int:pro_id>', views.product_favorites , name='product_favorites'),
+    path('add_product_favorites/<int:pro_id>', views.add_product_favorites , name='add_product_favorites'),
+    path('product_favorites', views.product_favorites , name='product_favorites'),
 ]
