@@ -6,6 +6,7 @@ from .models import UserProfile
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from django.contrib.auth.decorators import login_required
+from products.models import Product
 # Create your views here.
 
 ##########################################
@@ -154,6 +155,7 @@ def LogOut(request):
 ##########################################
 @login_required(login_url='signin')
 def profile(request):
+
     if request.POST  and 'btnSave' in request.POST:
         #Get Values from the Form
         if 'fname' in request.POST: fname = request.POST['fname']
@@ -222,3 +224,29 @@ def profile(request):
         else:
             return redirect('/')
         return render(request,'accounts/profile.html',context)
+    
+
+##########################################
+# Start product_favorites  Views
+##########################################
+
+def product_favorites(request, pro_id):
+    if request.user.is_authenticated and not request.user.is_anonymous:
+        #Product favorites
+        pro_fav = Product.objects.get(id = pro_id)
+
+        if UserProfile.objects.filter(user = request.user, product_favorites = pro_fav):
+            userprofile = UserProfile.objects.get(user = request.user, product_favorites = pro_fav)
+            userprofile.product_favorites.remove(pro_fav)
+            userprofile.save() 
+            messages.success(request, 'Product has been delete')
+        else:
+            userprofile = UserProfile.objects.get(user = request.user)
+            userprofile.product_favorites.add(pro_fav)
+            userprofile.save() 
+            messages.success(request, 'Product has been favorite ')
+        
+    else:
+        messages.error(request, 'You must be logged in')
+
+    return redirect('/product/'+str(pro_id))

@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
-{% block content %}
 {% block title %}| Profile: {{username}} {% endblock title %}
+
+{% block content %}
     <div class="my-form container p-5 my-5 rounded border border-warning">
         <form method="POST">
             {% csrf_token %}
