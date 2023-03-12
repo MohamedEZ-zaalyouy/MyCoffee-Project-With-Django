@@ -24,6 +24,11 @@
                             </div>
                         </div>
                     </div>
+                    {% empty %}
+                    <h4 class="alert alert-warning">
+                      No products here,
+                    <a href="{% url 'products' %}" class="text-dark">All Products</a>
+                    </h4>
                     {% endfor %}
 
                 </div>
