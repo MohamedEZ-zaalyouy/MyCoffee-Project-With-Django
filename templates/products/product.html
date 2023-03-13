@@ -3,7 +3,7 @@
 {% load static %}
 {% block content %}
     <div class="my-form container p-5 my-5 rounded border border-warning">
-        <form>
+        <form method="get" id="formaddtocart" action="{% url 'add_to_cart'%}">
             <h2 class="text-center">Product Details</h2>
             <hr>
 
@@ -26,8 +26,11 @@
                             <hr>
                             <p class="card-text">Current Price: <span id="price" class="bg-dark text-light rounded-circle p-2">${{product.price}}</span></p>
                             <hr>
-                            <button type="submit" class="btn btn-warning">Add To Cart</button>
 
+                           <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#staticBackdrop">
+                              Add To Cart
+                            </button>
 
                             <a href="{% url 'add_product_favorites' pro_id=product.id %}" class="btn btn-warning text-white">
                               <svg class="bi bi-star-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -35,6 +38,29 @@
                               </svg>
                             </a>
 
+                            <!--Start Modal -->
+                            <div class="modal fade " id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                              <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h5 class="modal-title" id="staticBackdropLabel">Quantity</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
+                                  </div>
+                                  <div class="modal-body">
+                                    <label for="inputQty">Quantity: </label>
+                                    <input class="form-control" id="inputQty" name="quantity" type="number" value="1" min="1" >
+                                    <input type="hidden" name="pro_id" value="{{product.id}}">
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btnclose">Close</button>
+                                    <button onclick="addtocart()" class="btn btn-warning" >Add To Cart</button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <!--End Modal -->
 
                             <hr>
                             <a href="{% url 'products' %}" class="btn btn-warning">Show All Products</a>
@@ -49,6 +75,16 @@
         
 
         </form>
+
+      <script>
+
+        function addtocart(){
+
+          document.getElementById('btnclose').click();
+          document.getElementById('formaddtocart').submit();
+        }
+
+      </script>
 
     </div>
 {% endblock content %}

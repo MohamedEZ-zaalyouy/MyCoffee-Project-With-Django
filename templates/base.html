@@ -20,11 +20,24 @@
     <script src="{% static 'js/jquery-3.4.1.slim.min.js' %}"></script>
     <script src="{% static 'js/popper.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
+
     <script>
+
+
         $(function () {
             $('[data-toggle="popover"]').popover()
         })
         $(".year").text((new Date).getFullYear());
+
+        // Quantity of Products
+        $(document).ready(function(){
+            $('#staticBackdrop').on('shown.bs.modal', function () {
+            $(this).find('#inputQty').focus();
+            $(this).find('#inputQty').select();
+            });
+        });
+
+
     </script>
     </body>
     
