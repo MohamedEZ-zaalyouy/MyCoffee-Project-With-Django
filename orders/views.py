@@ -50,6 +50,34 @@ def add_to_cart(request):
 ##########################################
 # Start cart  Views
 ##########################################
-
+@login_required(login_url='signin')
 def cart(request):
-    return render(request,'orders/cart.html')
+    context = None
+
+    if Order.objects.all().filter(user = request.user, is_finished=False):
+        order = Order.objects.get(user = request.user, is_finished=False)
+        orderdetail = OrderDetail.objects.all().filter(order = order)
+
+        total = 0
+        for sub in orderdetail:
+            total += sub.price * sub.quantity
+
+        context = {
+            'order' : order,
+            'orderdetail' : orderdetail,
+            'total' : total,
+        }
+
+    return render(request,'orders/cart.html',context)
+
+
+##########################################
+# Start remove_from_cart  Views
+##########################################
+@login_required(login_url='signin')
+def remove_from_cart(request, orderdetails_id):
+    if orderdetails_id:
+        orderdetails = OrderDetail.objects.get(id = orderdetails_id)
+        if orderdetails:
+            orderdetails.delete()            
+    return redirect('cart')
