@@ -31,7 +31,12 @@
                     <th scope="row">{{forloop.counter}}</th>
                     <td>{{line.product.name|title}}</td>
                     <td><img src="{{line.product.photo.url}}" style="width:70px; height:70px ; " alt="line.product.name"></td>
-                    <td>{{line.quantity}}</td>
+                    <td>
+                        <a href="{% url 'sub_QTY' orderdetails_id=line.id %}" class="btn btn-outline-warning btn-sm">-</a>
+                        {{line.quantity}}
+                        <a href="{% url 'add_QTY' orderdetails_id=line.id %}" class="btn btn-outline-warning btn-sm">+</a>
+                    </td>
+
                     <td>{{line.price}}</td> 
                     <td style="font-weight:bold; color:darkred;">{% widthratio line.price 1 line.quantity %}</td>
                     <td>

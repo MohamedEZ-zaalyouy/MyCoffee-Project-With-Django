@@ -81,3 +81,29 @@ def remove_from_cart(request, orderdetails_id):
         if orderdetails:
             orderdetails.delete()            
     return redirect('cart')
+
+##########################################
+# Start add_QTY  Views
+##########################################
+@login_required(login_url='signin')
+def add_QTY(request, orderdetails_id):
+    if orderdetails_id:
+        orderdetails = OrderDetail.objects.get(id = orderdetails_id)
+        if orderdetails:
+            orderdetails.quantity +=1
+            orderdetails.save()            
+    return redirect('cart')
+
+
+##########################################
+# Start Sub QTY  Views
+##########################################
+@login_required(login_url='signin')
+def sub_QTY(request, orderdetails_id):
+    if orderdetails_id:
+        orderdetails = OrderDetail.objects.get(id = orderdetails_id)
+        if orderdetails:
+            if orderdetails.quantity >= 2:
+                orderdetails.quantity -=1
+                orderdetails.save()            
+    return redirect('cart')
