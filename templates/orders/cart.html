@@ -8,8 +8,11 @@
         <h2 class="text-center">Cart</h2>
         <hr>   
         {% if order %}
-        <h5>Full name: {{order.user.first_name|add:' '|add:order.user.last_name}}</h5>
-        <h5>Order Number: {{order.id}} with total: {{total}}Dhs</h5>
+        <h5>Full name:<span class="my-num">{{order.user.first_name|add:' '|add:order.user.last_name}}</span></h5>
+        <hr>
+        Order Number: <span class="my-num">{{order.id}}</span>
+        with total: <span class="my-num">{{total}}Dhs</span>
+        for <span class="my-num">{{orderdetail.count}}</span> Products
         <hr>
 
         <table class="table table-hover">

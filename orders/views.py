@@ -25,13 +25,18 @@ def add_to_cart(request):
         order = Order.objects.all().filter(user=request.user, is_finished = False)
        
 
-        if order:
+        if order: # Il y a  Old order
             old_order = Order.objects.get(user=request.user, is_finished = False)
-            orderdetail = OrderDetail.objects.create(product = product, order = old_order, price = price, quantity=quantity )
-            orderdetail.save()
+            if OrderDetail.objects.all().filter(order= old_order, product = product):
+                orderdetail = OrderDetail.objects.get(order= old_order, product = product)
+                orderdetail.quantity += int(quantity)
+                orderdetail.save()
+            else:
+                orderdetail = OrderDetail.objects.create(product = product, order = old_order, price = price, quantity=quantity )
+                orderdetail.save()
 
             messages.success(request, 'Was added to cart for old order')
-        else:
+        else: # add new order
             new_order = Order()
             new_order.user = request.user
             new_order.is_finished=False
@@ -79,7 +84,8 @@ def remove_from_cart(request, orderdetails_id):
     if orderdetails_id:
         orderdetails = OrderDetail.objects.get(id = orderdetails_id)
         if orderdetails:
-            orderdetails.delete()            
+            if orderdetails.order.user.id == request.user.id:
+                orderdetails.delete()            
     return redirect('cart')
 
 ##########################################
@@ -90,8 +96,9 @@ def add_QTY(request, orderdetails_id):
     if orderdetails_id:
         orderdetails = OrderDetail.objects.get(id = orderdetails_id)
         if orderdetails:
-            orderdetails.quantity +=1
-            orderdetails.save()            
+            if orderdetails.order.user.id == request.user.id:
+                orderdetails.quantity +=1
+                orderdetails.save()            
     return redirect('cart')
 
 
@@ -103,7 +110,8 @@ def sub_QTY(request, orderdetails_id):
     if orderdetails_id:
         orderdetails = OrderDetail.objects.get(id = orderdetails_id)
         if orderdetails:
-            if orderdetails.quantity >= 2:
-                orderdetails.quantity -=1
-                orderdetails.save()            
+            if orderdetails.order.user.id == request.user.id:
+                if orderdetails.quantity > 1:
+                    orderdetails.quantity -=1
+                    orderdetails.save()            
     return redirect('cart')
