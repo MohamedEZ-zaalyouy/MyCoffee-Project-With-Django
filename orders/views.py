@@ -115,3 +115,10 @@ def sub_QTY(request, orderdetails_id):
                     orderdetails.quantity -=1
                     orderdetails.save()            
     return redirect('cart')
+
+##########################################
+# Start Sub QTY  Views
+##########################################
+@login_required(login_url='signin')
+def payment(request):
+    return render(request, 'orders/payment.html')
