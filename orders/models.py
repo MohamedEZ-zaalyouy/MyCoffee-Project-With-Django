@@ -14,6 +14,9 @@ class Order(models.Model):
     order_date = models.DateTimeField(default=datetime.now)  
     is_finished = models.BooleanField(default=False)
 
+    total = 0
+    items_count = 0
+
     def __str__(self):
         return 'User: '+ self.user.username + ', Order id: '+ str(self.id)
     

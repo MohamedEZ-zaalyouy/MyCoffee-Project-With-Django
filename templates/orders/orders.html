@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block title %}| Orders {% endblock title %}
+{% block content %}
+<div class="my-form container p-5 my-5 rounded border border-warning">
+    <h2 class="text-center">Orders</h2>
+    <hr>
+    {% include 'partials/messages.html' %}
+
+
+    {% if not all_orders %}
+    <h4 class="alert alert-warning">
+        No Order here
+    </h4>
+
+    {% else %}
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Order Number</th>
+                    <th scope="col">Date & Time</th>
+                    <th scope="col">Items Count</th>
+                    <th scope="col">Total(Dhs)</th>
+                    <th scope="col">is Finished</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for order in all_orders %}
+            <tr>
+                <th scope="row">{{forloop.counter}}</th>
+                <td>{{order.id}}</td>
+                <td>{{order.order_date}}</td>
+                <td>{{order.items_count}}</td>
+                <td>{{order.total}}</td>
+                <td>
+                    
+                    {% if order.is_finished == True %}
+                        Yes
+                    {% else %}
+                        No
+                    {% endif %}
+                        
+                </td>
+
+            </tr>
+            {% endfor %}  
+            </tbody>
+            </table>
+    {% endif %}
+        
+</div>
+{% endblock content %}
+        
